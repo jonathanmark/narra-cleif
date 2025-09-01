@@ -1,0 +1,527 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@custom-variant dark (&:is(.dark *));
+
+/* Custom font family definition */
+@layer base {
+  .font-plantin {
+    font-family: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif !important;
+  }
+  
+  .font-rotunda {
+    font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif !important;
+  }
+  
+  .font-garamond {
+    font-family: 'EB Garamond', serif !important;
+  }
+}
+
+/* Simplified font definitions without aggressive overrides */
+@layer base {
+  /* Font class definitions - can be overridden */
+  .font-plantin,
+  .font-plantin * {
+    font-family: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif !important;
+  }
+  
+  .font-rotunda,
+  .font-rotunda * {
+    font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif !important;
+  }
+  
+  .font-garamond,
+  .font-garamond * {
+    font-family: 'EB Garamond', serif !important;
+  }
+}
+
+:root {
+  --foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: #030213;
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0.0058 264.53);
+  --secondary-foreground: #030213;
+  --muted: #ececf0;
+  --muted-foreground: #717182;
+  --accent: #e9ebef;
+  --accent-foreground: #030213;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: transparent;
+  --input-background: #f3f3f5;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+}
+
+/* Dark mode theme removed as not used in current app */
+
+@theme inline {
+  --color-foreground: var(--foreground);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-family-plantin: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif;
+  --font-family-rotunda: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+  --font-family-garamond: 'EB Garamond', serif;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html, body {
+    @apply text-foreground;
+    font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+  }
+}
+
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    h1 {
+      font-family: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif;
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-family: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif;
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-family: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif;
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-family: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h5 {
+      font-family: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h6 {
+      font-family: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif;
+      font-size: var(--text-xs);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    p {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    label {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    textarea {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    select {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    span {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+    }
+
+    div {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+    }
+
+    a {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+    }
+
+    li {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+    }
+
+    ul {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+    }
+
+    ol {
+      font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+    }
+  }
+}
+
+/* Enhanced Scalable Header Support - Simplified */
+@layer utilities {
+  .header-scalable {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Ultra-wide screen support */
+@media (min-width: 1680px) {
+  .3xl\:grid-cols-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  
+  /* Enhanced navigation button sizing for ultra-wide screens */
+  .header-nav-button {
+    font-size: 1.125rem !important;
+    padding: 1rem 1.5rem !important;
+  }
+  
+  .header-cta-button {
+    font-size: 1.125rem !important;
+    padding: 1.25rem 2.5rem !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  .4xl\:h-\[900px\] {
+    height: 900px;
+  }
+  
+  .4xl\:w-\[56rem\] {
+    width: 56rem;
+  }
+  
+  .4xl\:py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .4xl\:min-h-\[9rem\] {
+    min-height: 9rem;
+  }
+  
+  .4xl\:min-h-\[90vh\] {
+    min-height: 90vh;
+  }
+  
+  .4xl\:h-36 {
+    height: 9rem;
+  }
+  
+  .4xl\:top-40 {
+    top: 10rem;
+  }
+  
+  .4xl\:text-8xl {
+    font-size: 6rem;
+    line-height: 1;
+  }
+  
+  .4xl\:text-6xl {
+    font-size: 3.75rem;
+    line-height: 1;
+  }
+  
+  .4xl\:mb-8 {
+    margin-bottom: 2rem;
+  }
+  
+  .4xl\:mb-10 {
+    margin-bottom: 2.5rem;
+  }
+  
+  .4xl\:bottom-20 {
+    bottom: 5rem;
+  }
+  
+  .4xl\:bottom-18 {
+    bottom: 4.5rem;
+  }
+  
+  .4xl\:text-\[10rem\] {
+    font-size: 10rem;
+  }
+  
+  /* Maximum button sizing for 4K and ultra-wide displays */
+  .header-nav-button {
+    font-size: 1.25rem !important;
+    padding: 1.25rem 2rem !important;
+    gap: 2.5rem !important;
+  }
+  
+  .header-cta-button {
+    font-size: 1.25rem !important;
+    padding: 1.5rem 3rem !important;
+  }
+}
+
+/* Performance optimizations for hover effects */
+@layer base {
+  .transform-gpu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+/* Simplified font utilities without aggressive overrides */
+@layer utilities {
+  .typography-headers {
+    font-family: 'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif;
+  }
+  
+  .typography-body {
+    font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+  }
+  
+  .typography-tagline {
+    font-family: 'EB Garamond', serif;
+  }
+}
+
+@media (min-width: 1536px) {
+  .2xl\:min-h-\[85vh\] {
+    min-height: 85vh;
+  }
+  
+  .2xl\:text-7xl {
+    font-size: 4.5rem;
+    line-height: 1;
+  }
+  
+  .2xl\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+  
+  .2xl\:mb-6 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .2xl\:mb-8 {
+    margin-bottom: 2rem;
+  }
+  
+  .2xl\:bottom-16 {
+    bottom: 4rem;
+  }
+  
+  .2xl\:bottom-14 {
+    bottom: 3.5rem;
+  }
+  
+  .2xl\:w-\[52rem\] {
+    width: 52rem;
+  }
+  
+  .2xl\:max-w-\[120px\] {
+    max-width: 120px;
+  }
+  
+  .2xl\:mx-8 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+  
+  .2xl\:text-9xl {
+    font-size: 8rem;
+    line-height: 1;
+  }
+}
+
+/* Enhanced scroll performance */
+@media (prefers-reduced-motion: no-preference) {
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Touch and mobile enhancements */
+@layer utilities {
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+  
+  .touch-pan-x {
+    touch-action: pan-x;
+  }
+  
+  .touch-pan-y {
+    touch-action: pan-y;
+  }
+
+  /* Carousel performance optimizations */
+  .carousel-optimized {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+
+  /* Loading skeleton animations */
+  .skeleton-pulse {
+    animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes skeleton-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Smooth transitions for carousel */
+  .carousel-smooth {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Mobile touch feedback */
+  .touch-feedback:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-in-out;
+  }
+
+  /* Lazy loading fade-in */
+  .lazy-fade-in {
+    animation: lazy-fade-in 0.3s ease-in-out;
+  }
+
+  @keyframes lazy-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  .carousel-container {
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .carousel-item {
+    scroll-snap-align: center;
+  }
+}
+
+/* Single card carousel enhancements */
+@layer utilities {
+  .single-card-carousel {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .single-card-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .phase-card-enhanced {
+    transform: scale(1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .phase-card-enhanced:hover {
+    transform: scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .carousel-nav-enhanced {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .carousel-nav-enhanced:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive card sizing for single carousel */
+@media (min-width: 768px) {
+  .single-card-carousel {
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .single-card-carousel {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .single-card-carousel {
+    max-width: 900px;
+  }
+}

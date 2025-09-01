@@ -1,0 +1,2 @@
+// This file has been replaced by the actual "Narra Cliffs Brochure-min.pdf" from your repository.
+// Please place your actual PDF file in the /assets folder with the filename "Narra Cliffs Brochure-min.pdf"
