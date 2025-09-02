@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Award, Trees, Play, Loader2, ChevronDown } from 'lucide-react';
-import image_9ab578b1541157adbb5044fbb43ad377130406ff from 'figma:asset/9ab578b1541157adbb5044fbb43ad377130406ff.png';
+import newFallbackImage from 'figma:asset/c0b95d6561670fe18db793b87c3afba0be4be5cd.png';
 import narraCliffs from 'figma:asset/d3a1836bb125ffce8bbd7f3abe126f38571c9cc0.png';
+import videoPlaceholderImage from 'figma:asset/68a2a261936101d3b4b330bd5d548d060662a971.png';
 
-export function HeroSection() {
+export function HeroSection({ onVideoFailure }: { onVideoFailure?: (hasFailed: boolean) => void }) {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [connectionType, setConnectionType] = useState<'fast' | 'slow' | 'unknown'>('unknown');
 
@@ -53,6 +55,7 @@ export function HeroSection() {
     // Progressive loading: Start with static background, then load video
     const loadingTimer = setTimeout(() => {
       setShowVideo(true);
+      // Don't set loading state here - only when video actually starts loading
     }, 500); // Small delay to ensure smooth initial load
 
     // Enhanced video autoplay handling
@@ -80,8 +83,12 @@ export function HeroSection() {
       clearTimeout(loadingTimer);
       clearTimeout(videoTimer);
       window.removeEventListener('resize', checkMobile);
-      document.head.removeChild(preconnectLink);
-      document.head.removeChild(preconnectLink2);
+      if (document.head.contains(preconnectLink)) {
+        document.head.removeChild(preconnectLink);
+      }
+      if (document.head.contains(preconnectLink2)) {
+        document.head.removeChild(preconnectLink2);
+      }
     };
   }, [connectionType]);
 
@@ -93,15 +100,19 @@ export function HeroSection() {
 
   const handleVideoLoad = () => {
     setVideoLoaded(true);
+    // Give a brief moment for the video to fully render before transitioning
     setTimeout(() => {
       setVideoReady(true);
-    }, 500);
+      setVideoFailed(false); // Video loaded successfully
+    }, 800);
   };
 
   const handleVideoError = () => {
     console.warn('Video failed to load, using static background');
     setVideoLoaded(false);
     setVideoReady(true);
+    setVideoFailed(true); // Video has failed to load
+    onVideoFailure?.(true); // Notify that video failed
   };
 
   return (
@@ -116,24 +127,37 @@ export function HeroSection() {
             overflow: 'hidden'
           }}
         >
-          {/* Primary Fallback Background Image - Always visible */}
+          {/* Primary Video Placeholder Image - Shows while video loads */}
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
             style={{
-              backgroundImage: `url(${image_9ab578b1541157adbb5044fbb43ad377130406ff})`,
-              filter: videoReady ? 'brightness(0.3) blur(2px)' : 'brightness(0.4)',
+              backgroundImage: `url(${videoPlaceholderImage})`,
+              filter: videoReady ? 'brightness(0.3) blur(2px)' : 'brightness(1)', // No dark overlay when video not ready
               transform: 'scale(1.1)',
-              opacity: videoReady ? 0.5 : 1
+              opacity: videoReady ? 0.3 : 1
             }}
           />
           
-          {/* Loading Indicator */}
-          {showVideo && !videoReady && (
+          {/* Secondary Fallback Image - Only if video fails to load */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+            style={{
+              backgroundImage: `url(${newFallbackImage})`,
+              filter: 'brightness(1)', // No dark overlay on fallback either
+              transform: 'scale(1.1)',
+              opacity: (!showVideo || (showVideo && !videoLoaded && videoReady)) ? 1 : 0,
+              zIndex: -1
+            }}
+          />
+          
+          {/* Loading Indicator - Only show after video iframe starts loading */}
+          {showVideo && !videoLoaded && (
             <motion.div
               className="absolute inset-0 flex items-center justify-center z-5"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ delay: 2.0 }}
             >
               <div className="bg-white/10 backdrop-blur-sm rounded-full p-6 border border-white/20">
                 <Loader2 className="w-8 h-8 text-white animate-spin" />
@@ -152,9 +176,9 @@ export function HeroSection() {
                 border: 'none',
                 aspectRatio: '16/9',
                 position: 'relative',
-                zIndex: 1,
+                zIndex: videoReady ? 2 : 0,
                 opacity: videoReady ? 1 : 0,
-                transition: 'opacity 0.5s ease-in-out'
+                transition: 'opacity 0.8s ease-in-out, z-index 0.1s'
               }}
               frameBorder="0"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
@@ -163,45 +187,18 @@ export function HeroSection() {
               loading="lazy"
               playsInline
               onLoad={handleVideoLoad}
+              onLoadStart={() => {
+                // Video iframe has started loading - don't change header yet
+              }}
               onError={handleVideoError}
               initial={{ opacity: 0 }}
               animate={{ opacity: videoReady ? 1 : 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.8 }}
             />
           )}
           
-          {/* Enhanced Mobile Touch Overlay */}
-          {isMobile && (
-            <div 
-              className="absolute inset-0 bg-transparent z-10 flex items-center justify-center"
-              onClick={() => {
-                const iframe = document.querySelector('iframe[title="Narra Cliffs Intro Video"]') as HTMLIFrameElement;
-                if (iframe) {
-                  const src = iframe.src;
-                  iframe.src = '';
-                  setTimeout(() => {
-                    iframe.src = src;
-                  }, 100);
-                }
-              }}
-            >
-              {!videoLoaded && showVideo && (
-                <motion.div
-                  className="bg-white/20 backdrop-blur-sm rounded-full p-6 border border-white/30 cursor-pointer"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 2, duration: 0.5 }}
-                >
-                  <div className="text-white text-center">
-                    <Play className="w-8 h-8 mx-auto mb-2" />
-                    <div className="text-sm font-medium">Tap to play video</div>
-                  </div>
-                </motion.div>
-              )}
-            </div>
-          )}
+          {/* Mobile Touch Overlay - Hidden to remove tap to play button */}
+          {/* Removed tap to play button as requested */}
         </div>
 
         {/* Awards/Partners Badge */}
@@ -231,13 +228,13 @@ export function HeroSection() {
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
             <motion.div 
-              className="text-center relative z-30"
+              className="text-center relative z-30 flex flex-col items-center justify-center w-full"
               style={{ marginTop: '15px' }}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
             >
-              <p className="font-garamond text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[8rem] 2xl:text-[9rem] 4xl:text-[10rem] text-white/90 font-medium tracking-wide text-left">
+              <p className="font-garamond hero-iphone-16 iphone-16-hero-max text-7xl sm:text-8xl md:text-9xl lg:text-[8rem] xl:text-[10rem] 2xl:text-[11rem] 4xl:text-[12rem] text-white/90 font-medium tracking-wide text-center transform sm:transform-none translate-y-[-60px] sm:translate-y-0">
                 The Life<br /><span className="italic">Above</span>
               </p>
             </motion.div>
@@ -256,7 +253,7 @@ export function HeroSection() {
 
         {/* Scroll Down Indicator */}
         <motion.div 
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-40 flex flex-col items-center cursor-pointer"
+          className="absolute bottom-16 sm:bottom-12 md:bottom-8 mobile-scroll-button left-1/2 transform -translate-x-1/2 z-40 flex flex-col items-center cursor-pointer"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 2.0, ease: "easeOut" }}

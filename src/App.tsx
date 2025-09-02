@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import LotsPage from "./LotsPage";
 
 import AmenitiesPage from "./components/pages/AmenitiesPage";
+import { GalleryPage } from "./components/pages/GalleryPage";
 import { HomePage } from "./components/pages/HomePage";
-import { ContactPage } from "./components/pages/ContactPage";
 import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
 import { Toaster } from "./components/ui/sonner";
+import { ViewportMeta } from "./components/utils/ViewportMeta";
 
 // Main App Component with Routing
 export default function App() {
   const [currentPage, setCurrentPage] = useState<
-    "home" | "lots" | "amenities" | "contact"
+    "home" | "lots" | "amenities" | "gallery"
   >("home");
+  const [videoFailed, setVideoFailed] = useState(false);
 
   useEffect(() => {
     // DNS prefetch is now handled in HeroSection component to avoid duplication
@@ -20,11 +22,18 @@ export default function App() {
 
   // Simplified navigation - no window event listeners needed
 
-  const navigateToLots = () => {
+  const navigateToLots = (sectionId?: string) => {
     setCurrentPage("lots");
-    // Scroll to top when navigating to lots page
+    // Scroll to specific section or top
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (sectionId) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }, 100);
   };
 
@@ -38,9 +47,9 @@ export default function App() {
     }, 100);
   };
 
-  const navigateToContact = () => {
-    setCurrentPage("contact");
-    // Scroll to top when navigating to contact page
+  const navigateToGallery = () => {
+    setCurrentPage("gallery");
+    // Scroll to top when navigating to gallery page
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 100);
@@ -54,36 +63,21 @@ export default function App() {
     }, 100);
   };
 
-  if (currentPage === "contact") {
-    return (
-      <div className="font-rotunda bg-white min-h-screen">
-        <Header
-          onNavigateToHome={navigateToHome}
-          onNavigateToLots={navigateToLots}
-          onNavigateToAmenities={navigateToAmenities}
-          onNavigateToContact={navigateToContact}
-          staticPosition={true}
-        />
-        <ContactPage />
-        <Footer
-          onNavigateToHome={navigateToHome}
-          onNavigateToLots={navigateToLots}
-          onNavigateToAmenities={navigateToAmenities}
-          onNavigateToContact={navigateToContact}
-        />
-        <Toaster />
-      </div>
-    );
-  }
+  const handleVideoFailure = (hasFailed: boolean) => {
+    setVideoFailed(hasFailed);
+  };
 
   if (currentPage === "lots") {
     return (
-      <div className="font-rotunda bg-white min-h-screen">
+      <div className="font-rotunda bg-white min-h-screen full-height-mobile safe-area-padding">
+        <ViewportMeta />
         <Header
           onNavigateToHome={navigateToHome}
           onNavigateToLots={navigateToLots}
           onNavigateToAmenities={navigateToAmenities}
-          onNavigateToContact={navigateToContact}
+          onNavigateToGallery={navigateToGallery}
+          currentPage={currentPage}
+          videoFailed={videoFailed}
         />
         <LotsPage
           onNavigateToHome={navigateToHome}
@@ -93,23 +87,23 @@ export default function App() {
           onNavigateToHome={navigateToHome}
           onNavigateToLots={navigateToLots}
           onNavigateToAmenities={navigateToAmenities}
-          onNavigateToContact={navigateToContact}
+          onNavigateToGallery={navigateToGallery}
         />
         <Toaster />
       </div>
     );
   }
 
-
-
   if (currentPage === "amenities") {
     return (
-      <div className="font-rotunda bg-white min-h-screen">
+      <div className="font-rotunda bg-white min-h-screen full-height-mobile safe-area-padding">
+        <ViewportMeta />
         <Header
           onNavigateToHome={navigateToHome}
           onNavigateToLots={navigateToLots}
           onNavigateToAmenities={navigateToAmenities}
-          onNavigateToContact={navigateToContact}
+          onNavigateToGallery={navigateToGallery}
+          currentPage={currentPage}
         />
         <AmenitiesPage
           onNavigateToHome={navigateToHome}
@@ -119,7 +113,34 @@ export default function App() {
           onNavigateToHome={navigateToHome}
           onNavigateToLots={navigateToLots}
           onNavigateToAmenities={navigateToAmenities}
-          onNavigateToContact={navigateToContact}
+          onNavigateToGallery={navigateToGallery}
+        />
+        <Toaster />
+      </div>
+    );
+  }
+
+  if (currentPage === "gallery") {
+    return (
+      <div className="font-rotunda bg-white min-h-screen full-height-mobile safe-area-padding">
+        <ViewportMeta />
+        <Header
+          onNavigateToHome={navigateToHome}
+          onNavigateToLots={navigateToLots}
+          onNavigateToAmenities={navigateToAmenities}
+          onNavigateToGallery={navigateToGallery}
+          staticPosition={true}
+          currentPage={currentPage}
+        />
+        <GalleryPage
+          onNavigateToHome={navigateToHome}
+          onNavigateToLots={navigateToLots}
+        />
+        <Footer
+          onNavigateToHome={navigateToHome}
+          onNavigateToLots={navigateToLots}
+          onNavigateToAmenities={navigateToAmenities}
+          onNavigateToGallery={navigateToGallery}
         />
         <Toaster />
       </div>
@@ -127,23 +148,26 @@ export default function App() {
   }
 
   return (
-    <div className="font-rotunda min-h-screen">
+    <div className="font-rotunda min-h-screen full-height-mobile safe-area-padding">
+      <ViewportMeta />
       <Header
         onNavigateToHome={navigateToHome}
         onNavigateToLots={navigateToLots}
         onNavigateToAmenities={navigateToAmenities}
-        onNavigateToContact={navigateToContact}
+        onNavigateToGallery={navigateToGallery}
+        currentPage={currentPage}
+        videoFailed={videoFailed}
       />
       <HomePage
         onNavigateToLots={navigateToLots}
         onNavigateToAmenities={navigateToAmenities}
-        onNavigateToContact={navigateToContact}
+        onVideoFailure={handleVideoFailure}
       />
       <Footer
         onNavigateToHome={navigateToHome}
         onNavigateToLots={navigateToLots}
         onNavigateToAmenities={navigateToAmenities}
-        onNavigateToContact={navigateToContact}
+        onNavigateToGallery={navigateToGallery}
       />
       <Toaster />
     </div>

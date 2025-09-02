@@ -8,8 +8,6 @@ import {
   Award,
   ChevronLeft,
   ChevronRight,
-  Square,
-  Play,
   Users,
   Activity,
   Coffee,
@@ -43,88 +41,21 @@ import clubhouseElevatedView from 'figma:asset/017fed1d3f715b816a418abbcbd248ce6
 import clubhousePoolsideView from 'figma:asset/f7e5ca0205eb81a418958bff82da1281fe3a56b3.png';
 import clubhouseComplexAngle from 'figma:asset/38a25325b9da6d5a00fbe89806d36d2090676a4c.png';
 import clubhouseMeetingRoom from 'figma:asset/0f3fd4d6ee50e1e0895857e838469db282a1bc7a.png';
-import sunsetParkImage1 from 'figma:asset/a50ce1a018d3c763b48a584d39480029ef7ba2b2.png';
-import sunsetParkImage2 from 'figma:asset/c3d06948c7267eb199fcd55f5999efef8658833f.png';
+
 import golfCourseImage from 'figma:asset/1bac27e8d21bb01b9c0e9933eff3fa08d0842ca1.png';
+import narraDriveImage from 'figma:asset/3705bd77305e632e033cfff6c352ebd2a51a06e3.png';
+import fairwayParkImage from 'figma:asset/3509976485ee87b37ecfa5789adc01277abccee8.png';
+import eastParkImage from 'figma:asset/ed00eff96c321be4e281222712a8d89c45d61829.png';
+import sunsetParkMobileImage from 'figma:asset/9380a19ac43a9ced624b5380250f1ff51f83e34a.png';
 
 interface AmenitiesPageProps {
   onNavigateToHome: () => void;
   onNavigateToLots: () => void;
 }
 
-// Hero Section
-function AmenitiesHero({ onNavigateToLots }: { onNavigateToLots: () => void }) {
-  return (
-    <section className="relative min-h-[70vh] md:min-h-[60vh] lg:min-h-[50vh] overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-top bg-no-repeat"
-        style={{
-          backgroundImage: `url(${aerialLandscapeImage})`
-        }}
-      >
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundColor: '#FFFFFF',
-            opacity: 0.55
-          }}
-        ></div>
-      </div>
-
-      <div className="relative z-10 min-h-[70vh] md:min-h-[60vh] lg:min-h-[50vh] flex items-center justify-center">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
-          <div className="text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-4 md:space-y-6 mt-8 sm:mt-12 md:mt-16 lg:mt-20 xl:mt-24 font-garamond"
-              style={{ transform: 'translateY(30px)' }}
-            >
-              <motion.h1 
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold"
-                style={{ color: '#4A573B' }}
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                World-Class Amenities
-              </motion.h1>
-              
-              <motion.div 
-                className="flex items-center justify-center"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-              >
-                <div className="flex-1 h-px bg-white/30 max-w-[50px] sm:max-w-[60px]"></div>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl mx-4" style={{ color: '#4A573B' }}>
-                  Live The Elevated Lifestyle
-                </p>
-                <div className="flex-1 h-px bg-white/30 max-w-[50px] sm:max-w-[60px]"></div>
-              </motion.div>
-              
-              <motion.p 
-                className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl max-w-3xl mx-auto leading-relaxed font-bold"
-                style={{ color: '#4A573B' }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-              >
-                Experience premium facilities and recreational spaces designed to enhance your everyday living at Narra Cliffs.
-              </motion.p>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// Clubhouse Section (WITH AUTO-PLAY)
+// Clubhouse Section (MANUAL ONLY)
 function ClubhouseSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   
   const images = [
     {
@@ -233,39 +164,23 @@ function ClubhouseSection() {
 
   const totalSlides = images.length;
 
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-    
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, totalSlides]);
-
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
-    setIsAutoPlaying(false);
-    setTimeout(() => setIsAutoPlaying(true), 8000);
   };
 
   const goToPrevious = () => {
     setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-    setIsAutoPlaying(false);
-    setTimeout(() => setIsAutoPlaying(true), 8000);
   };
 
   const goToNext = () => {
     setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    setIsAutoPlaying(false);
-    setTimeout(() => setIsAutoPlaying(true), 8000);
   };
 
   const getPreviousIndex = (current: number) => (current - 1 + totalSlides) % totalSlides;
   const getNextIndex = (current: number) => (current + 1) % totalSlides;
 
   return (
-    <section className="py-16 bg-[rgba(255,255,255,1)]">
+    <section className="pt-8 pb-16 bg-[rgba(255,255,255,1)]" style={{ paddingTop: '132px' }}>
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <motion.div
           className="text-center mb-12"
@@ -380,43 +295,28 @@ function ClubhouseSection() {
             </motion.div>
           </div>
 
-          {/* Enhanced Navigation Arrows */}
+          {/* Enhanced Navigation Arrows - Smaller Circles */}
           <motion.button
             onClick={goToPrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 carousel-nav-enhanced rounded-full p-3 sm:p-4 text-gray-800 transition-all duration-300 z-20 touch-manipulation"
+            className="absolute left-4 top-1/2 -translate-y-1/2 carousel-nav-enhanced rounded-full p-1.5 sm:p-2 text-gray-800 transition-all duration-300 z-20 touch-manipulation flex items-center justify-center"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Previous image"
           >
-            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           </motion.button>
           
           <motion.button
             onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 carousel-nav-enhanced rounded-full p-3 sm:p-4 text-gray-800 transition-all duration-300 z-20 touch-manipulation"
+            className="absolute right-4 top-1/2 -translate-y-1/2 carousel-nav-enhanced rounded-full p-1.5 sm:p-2 text-gray-800 transition-all duration-300 z-20 touch-manipulation flex items-center justify-center"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Next image"
           >
-            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </motion.button>
 
-          {/* Enhanced Play/Pause Button */}
-          <motion.button
-            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            className="absolute top-4 right-4 bg-white/90 hover:bg-white backdrop-blur-sm rounded-full p-2 text-gray-800 transition-all duration-300 z-20 shadow-lg touch-manipulation"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
-          >
-            {isAutoPlaying ? (
-              <Square className="w-4 h-4" />
-            ) : (
-              <Play className="w-4 h-4" />
-            )}
-          </motion.button>
 
-          {/* Enhanced Dot Indicators */}
 
         </div>
       </motion.div>
@@ -426,74 +326,53 @@ function ClubhouseSection() {
 
 // Sunset Park Section (MANUAL ONLY - NO AUTO-PLAY) 
 function SunsetParkSection() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [mobileSlide, setMobileSlide] = useState(0);
   
-  const mediaItems = [
+  // Parks carousel data
+  const mobileParks = [
     {
-      type: 'image',
-      src: sunsetParkImage1,
-      alt: "Sunset Park Pavilion with Scenic Mountain Views",
-      title: "Scenic Mountain Pavilion",
-      description: "Modern pavilion structure offering panoramic views of the surrounding landscape"
+      title: "FAIRWAY PARK",
+      description: "Encourages open air activity with its outdoor fitness equipment, hillside walking trail and greenery.",
+      image: fairwayParkImage,
+      alt: "Fairway Park with outdoor fitness equipment and trails"
     },
     {
-      type: 'image',
-      src: sunsetParkImage2,
-      alt: "Sunset Park Pavilion Alternative View",
-      title: "Natural Integration Design",
-      description: "Architectural design seamlessly integrated with the natural landscape and lush greenery"
+      title: "EAST PARK",
+      description: "It's the perfect spot for your furry companions to stay active, happy, and engaged in a friendly outdoor setting.",
+      image: eastParkImage,
+      alt: "East Park dog exercise area with obstacles"
     },
     {
-      type: 'video',
-      src: "https://vimeo.com/1110247157",
-      videoId: "1110247157",
-      alt: "Sunset Park Virtual Tour",
-      title: "Virtual Experience",
-      description: "Take a virtual tour through the stunning landscape and architecture of Sunset Park"
+      title: "SUNSET PARK",
+      description: "A cliff edge deck for residents to unwind and end the day appreciating views of the sun as it sets behind the city skyline.",
+      image: sunsetParkMobileImage,
+      alt: "Sunset Park cliff edge deck with city skyline views"
+    },
+    {
+      title: "NARRA DRIVE",
+      description: "A 200 meter stretch for morning jogs or afternoon strolls.",
+      image: narraDriveImage,
+      alt: "Narra Drive jogging and walking path"
     }
   ];
 
-  const totalSlides = mediaItems.length;
+  const totalMobileSlides = mobileParks.length;
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
+  // Parks navigation functions
+  const goToMobileSlide = (index: number) => {
+    setMobileSlide(index);
   };
 
-  const goToPrevious = () => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  const goToPreviousMobile = () => {
+    setMobileSlide((prev) => (prev - 1 + totalMobileSlides) % totalMobileSlides);
   };
 
-  const goToNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
-  };
-
-  const renderMediaItem = (item: any) => {
-    if (item.type === 'video') {
-      return (
-        <div className="w-full h-full relative">
-          <iframe
-            src={`https://player.vimeo.com/video/${item.videoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&background=1`}
-            className="w-full h-full object-cover"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
-            title={item.alt}
-          />
-        </div>
-      );
-    } else {
-      return (
-        <ImageWithFallback
-          src={item.src}
-          alt={item.alt}
-          className="w-full h-full object-cover carousel-smooth lazy-fade-in"
-        />
-      );
-    }
+  const goToNextMobile = () => {
+    setMobileSlide((prev) => (prev + 1) % totalMobileSlides);
   };
 
   return (
-    <section className="py-16 bg-[#F5F3ED]">
+    <section className="pt-8 pb-16 bg-[#F5F3ED]">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <motion.div
           className="text-center mb-12"
@@ -502,101 +381,138 @@ function SunsetParkSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#4A573B] mb-6 font-garamond">
-            Explore Sunset Park
+          <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-[#4A573B] mb-6 font-garamond text-[40px]">
+            Explore the Parks and Trails
           </h2>
-          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-rotunda text-justify">
-            Experience the breathtaking beauty of Sunset Park, where modern architecture meets nature's grandeur. This elevated sanctuary offers unparalleled views and serves as the perfect backdrop for moments of tranquility and reflection.
+          {/* Mobile description */}
+          <p className="block md:hidden text-base text-gray-700 max-w-2xl mx-auto font-rotunda text-center mb-4">
+            Discover our beautifully designed parks and recreational spaces, each offering unique amenities for residents to enjoy.
+          </p>
+          {/* Desktop description */}
+          <p className="hidden md:block text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-rotunda text-center">
+            Discover our thoughtfully designed parks and trails, each offering unique recreational opportunities. From fitness trails and dog parks to scenic sunset viewing decks and peaceful walking paths.
           </p>
         </motion.div>
       </div>
 
-      {/* Media Gallery */}
-      <motion.div
-        className="relative w-full overflow-hidden carousel-optimized"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
-      >
-        <div className="relative h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px] xl:h-[700px] flex items-center">
-          
-          {/* Mobile Layout: Single Media Item */}
-          <div className="md:hidden w-full h-full relative overflow-hidden">
+      {/* Mobile Parks Carousel */}
+      <div className="md:hidden mb-8">
+        <motion.div
+          className="relative w-full overflow-hidden carousel-optimized"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="relative h-[500px] flex items-center">
+            {/* Mobile Park Card */}
+            <div className="w-full h-full relative overflow-hidden px-4">
+              <motion.div
+                key={`park-card-${mobileSlide}`}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ 
+                  duration: 0.6, 
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                  opacity: { duration: 0.4 }
+                }}
+                className="w-full h-full max-w-sm mx-auto"
+              >
+                <div className="bg-white rounded-2xl shadow-xl overflow-hidden h-full">
+                  {/* Park Image */}
+                  <div className="h-4/5 relative">
+                    <ImageWithFallback
+                      src={mobileParks[mobileSlide].image}
+                      alt={mobileParks[mobileSlide].alt}
+                      className="w-full h-full object-cover bg-amber-50"
+                    />
+                  </div>
+                  
+                  {/* Park Content */}
+                  <div className="h-1/5 p-4 flex flex-col justify-center">
+                    <h3 className="text-xl font-bold text-[#4A573B] mb-2 font-garamond text-center">
+                      {mobileParks[mobileSlide].title}
+                    </h3>
+                    <p className="text-sm text-gray-700 font-rotunda leading-snug text-center">
+                      {mobileParks[mobileSlide].description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Mobile Navigation Arrows */}
+            <motion.button
+              onClick={goToPreviousMobile}
+              className="absolute left-4 top-1/2 -translate-y-1/2 carousel-nav-enhanced rounded-full p-1.5 text-gray-800 transition-all duration-300 z-20 touch-manipulation flex items-center justify-center"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Previous park"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </motion.button>
+            
+            <motion.button
+              onClick={goToNextMobile}
+              className="absolute right-4 top-1/2 -translate-y-1/2 carousel-nav-enhanced rounded-full p-1.5 text-gray-800 transition-all duration-300 z-20 touch-manipulation flex items-center justify-center"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Next park"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </motion.button>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Desktop Parks Grid */}
+      <div className="hidden md:block max-w-7xl mx-auto px-4 md:px-6">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          {mobileParks.map((park, index) => (
             <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              key={park.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ 
                 duration: 0.6, 
-                ease: [0.25, 0.46, 0.45, 0.94],
-                opacity: { duration: 0.4 }
-              }}
-              className="w-full h-full"
-            >
-              {renderMediaItem(mediaItems[currentSlide])}
-            </motion.div>
-          </div>
-
-          {/* Desktop Layout: Single Centered Media Item */}
-          <div className="hidden md:flex w-full h-full justify-center">
-            <motion.div 
-              className="w-full max-w-6xl xl:max-w-7xl h-full relative overflow-hidden rounded-lg shadow-xl"
-              key={`sunset-park-${currentSlide}`}
-              initial={{ opacity: 0.8, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ 
-                duration: 0.5, 
+                delay: 0.1 * index,
                 ease: [0.25, 0.46, 0.45, 0.94]
               }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="bg-white rounded-2xl shadow-xl overflow-hidden h-[500px] lg:h-[550px] xl:h-[600px] cursor-pointer transform transition-all duration-300"
             >
-              {renderMediaItem(mediaItems[currentSlide])}
+              {/* Park Image */}
+              <div className="h-3/4 relative overflow-hidden">
+                <ImageWithFallback
+                  src={park.image}
+                  alt={park.alt}
+                  className="w-full h-full object-cover bg-amber-50 transition-transform duration-500 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              
+              {/* Park Content */}
+              <div className="h-1/4 p-4 lg:p-6 flex flex-col justify-center">
+                <h3 className="text-lg lg:text-xl xl:text-2xl font-bold text-[#4A573B] mb-2 lg:mb-3 font-garamond text-center">
+                  {park.title}
+                </h3>
+                <p className="text-sm lg:text-base text-gray-700 font-rotunda leading-snug text-center line-clamp-3">
+                  {park.description}
+                </p>
+              </div>
             </motion.div>
-          </div>
+          ))}
+        </motion.div>
+      </div>
 
-          {/* Enhanced Navigation Arrows */}
-          <motion.button
-            onClick={goToPrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 carousel-nav-enhanced rounded-full p-3 sm:p-4 text-gray-800 transition-all duration-300 z-20 touch-manipulation"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Previous media"
-          >
-            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-          </motion.button>
-          
-          <motion.button
-            onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 carousel-nav-enhanced rounded-full p-3 sm:p-4 text-gray-800 transition-all duration-300 z-20 touch-manipulation"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Next media"
-          >
-            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-          </motion.button>
 
-          {/* Enhanced Dot Indicators */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
-            {mediaItems.map((_, index) => (
-              <motion.button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 touch-manipulation ${
-                  index === currentSlide 
-                    ? 'bg-white scale-110 shadow-lg' 
-                    : 'bg-white/50 hover:bg-white/70'
-                }`}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        </div>
-      </motion.div>
     </section>
   );
 }
@@ -667,221 +583,35 @@ function EastridgeSection({ onNavigateToLots }: { onNavigateToLots: () => void }
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#4A573B] mb-6 font-garamond">
             Inside Eastridge
           </h2>
-          <div className="max-w-4xl mx-auto space-y-6">
-            <p className="text-xl md:text-2xl text-gray-800 font-rotunda">
-              Narra Cliffs sits at the <strong>highest point of Eastridge</strong> — a sprawling <strong>500-hectare residential development</strong> that offers an extraordinary array of recreational and lifestyle amenities.
+          <div className="max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-800 font-rotunda mb-8">
+              Just minutes from Eastridge, explore a range of exciting destinations and scenic spots. Venture beyond the village gates for your next great adventure!
             </p>
-            <p className="text-lg md:text-xl text-gray-700 font-rotunda">
-              Discover world-class facilities and experiences right at your doorstep.
-            </p>
+            
+            <motion.button
+              onClick={() => onNavigateToLots('places-nearby')}
+              className="inline-flex items-center px-8 py-4 bg-[#DA743F] text-white font-rotunda hover:bg-[#c4642f] transition-all duration-300 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <MapPin className="w-5 h-5 mr-2" />
+              Explore Places Nearby
+            </motion.button>
           </div>
         </motion.div>
-
-        {/* Tab Navigation - Pill-shaped buttons */}
-        <motion.div
-          className="flex justify-center mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-        >
-          <div className="flex space-x-4">
-            <button
-              onClick={() => setActiveTab("recreational")}
-              className={`px-6 py-3 rounded-full font-rotunda transition-all duration-300 flex items-center space-x-2 ${
-                activeTab === "recreational"
-                  ? 'bg-[#4A573B] text-white'
-                  : 'bg-white/50 text-[#4A573B] hover:bg-white/70'
-              }`}
-            >
-              <TreePine className="w-4 h-4" />
-              <span>Recreational Paradise</span>
-            </button>
-            <button
-              onClick={() => setActiveTab("dining")}
-              className={`px-6 py-3 rounded-full font-rotunda transition-all duration-300 flex items-center space-x-2 ${
-                activeTab === "dining"
-                  ? 'bg-[#4A573B] text-white'
-                  : 'bg-white/50 text-[#4A573B] hover:bg-white/70'
-              }`}
-            >
-              <Utensils className="w-4 h-4" />
-              <span>Dining & Entertainment</span>
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Tab Content */}
-        {activeTab === "recreational" && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            {/* Recreational Paradise Section */}
-            <div className="text-center mb-12">
-              <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#4A573B] mb-4 font-garamond">
-                Recreational Paradise
-              </h3>
-              <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-rotunda">
-                Immerse yourself in championship-level recreational facilities and outdoor adventures.
-              </p>
-            </div>
-
-            {/* Golf Course Hero Image */}
-            <div className="mb-16 w-full">
-              <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-2xl mx-auto max-w-6xl">
-                <ImageWithFallback
-                  src={golfCourseImage}
-                  alt="Championship Golf Course at Eastridge"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/30"></div>
-                <div className="absolute bottom-8 left-8">
-                  <h4 className="text-3xl md:text-4xl font-bold text-white mb-2 font-garamond">
-                    Championship Golf Course
-                  </h4>
-                  <p className="text-lg md:text-xl text-white/90 font-rotunda">
-                    Experience world-class golfing in the heart of Rizal
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 4-Card Amenities Grid */}
-            <div className="mb-16">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {recreationalAmenities.map((amenity, index) => (
-                  <motion.div
-                    key={amenity.name}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <Card className="h-full hover:shadow-lg transition-shadow duration-300 bg-transparent border border-[#4A573B]">
-                      <CardHeader className="text-center pb-4">
-                        <div className="absolute top-3 right-3">
-                          <Badge className="bg-green-100 text-green-700 border-green-200">
-                            {amenity.category}
-                          </Badge>
-                        </div>
-                        <div className="mx-auto mb-4 p-3 bg-gray-100 rounded-full w-fit text-gray-600">
-                          {amenity.icon}
-                        </div>
-                        <CardTitle className="text-lg font-rotunda text-gray-800 mb-2">
-                          {amenity.name}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-0">
-                        <p className="text-sm text-gray-600 font-rotunda text-center leading-relaxed">
-                          {amenity.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Social Media Partner Cards */}
-            <div className="text-center">
-              <p className="text-lg text-gray-700 mb-6 font-rotunda">
-                Follow our recreational partners for the latest updates.
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-3 w-full max-w-xs">
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Instagram className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="text-left flex-1">
-                    <p className="font-semibold text-gray-800 font-rotunda text-sm">@bunkerpark</p>
-                    <p className="text-xs text-gray-500 font-rotunda">Adventure Playground</p>
-                  </div>
-                  <ExternalLink className="w-4 h-4 text-gray-400" />
-                </div>
-                <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 flex items-center space-x-3 w-full max-w-xs">
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Instagram className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="text-left flex-1">
-                    <p className="font-semibold text-gray-800 font-rotunda text-sm">@eastridgegolf.ph</p>
-                    <p className="text-xs text-gray-500 font-rotunda">Championship Golf Club</p>
-                  </div>
-                  <ExternalLink className="w-4 h-4 text-gray-400" />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {activeTab === "dining" && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            {/* Dining & Entertainment Section */}
-            <div className="text-center mb-12">
-              <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#4A573B] mb-4 font-garamond">
-                Dining & Entertainment
-              </h3>
-              <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-rotunda">
-                Savor exceptional dining experiences and community spaces that bring people together.
-              </p>
-            </div>
-
-            {/* 3-Card Dining Amenities Grid */}
-            <div className="mb-16">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                {diningAmenities.map((amenity, index) => (
-                  <motion.div
-                    key={amenity.name}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <Card className="h-full hover:shadow-lg transition-shadow duration-300 bg-white border border-gray-200">
-                      <CardHeader className="text-center pb-4">
-                        <div className="absolute top-3 right-3">
-                          <Badge className={`${
-                            amenity.category === 'Dining' 
-                              ? 'bg-orange-100 text-orange-700 border-orange-200' 
-                              : 'bg-pink-100 text-pink-700 border-pink-200'
-                          }`}>
-                            {amenity.category}
-                          </Badge>
-                        </div>
-                        <div className="mx-auto mb-4 p-3 bg-gray-100 rounded-full w-fit text-gray-600">
-                          {amenity.icon}
-                        </div>
-                        <CardTitle className="text-lg font-rotunda text-gray-800 mb-2">
-                          {amenity.name}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-0">
-                        <p className="text-sm text-gray-600 font-rotunda text-center leading-relaxed">
-                          {amenity.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
       </div>
     </section>
   );
 }
 
-// Main Component
+// Main export
 export default function AmenitiesPage({ onNavigateToHome, onNavigateToLots }: AmenitiesPageProps) {
   return (
-    <div className="min-h-screen bg-white">
-      <AmenitiesHero onNavigateToLots={onNavigateToLots} />
+    <div className="min-h-screen">
       <ClubhouseSection />
       <SunsetParkSection />
       <EastridgeSection onNavigateToLots={onNavigateToLots} />

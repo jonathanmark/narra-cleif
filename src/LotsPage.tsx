@@ -191,19 +191,30 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
     }
   ];
 
-  // Nearby places data
+  // Nearby places data - sorted by importance
   const nearbyPlaces = [
-    { name: 'All Home', category: 'Home Store', distance: '5.2 km', icon: Home, color: 'text-orange-600' },
-    { name: 'SM Center Angono', category: 'Shopping Mall', distance: '7.8 km', icon: ShoppingBag, color: 'text-blue-600' },
-    { name: 'Marketplace', category: 'Shopping Center', distance: '4.1 km', icon: ShoppingBag, color: 'text-green-600' },
-    { name: 'Shopwise', category: 'Supermarket', distance: '6.3 km', icon: ShoppingBag, color: 'text-blue-500' },
-    { name: 'Antipolo Church', category: 'Religious Site', distance: '12.5 km', icon: Building, color: 'text-purple-600' },
-    { name: 'Manila East Medical Center', category: 'Hospital', distance: '8.7 km', icon: Hospital, color: 'text-red-600' },
+    // Priority locations
+    { name: 'East Ridge Golf Club', category: 'Golf Course', distance: '2.1 km', icon: Trees, color: 'text-green-600' },
+    { name: 'Bunker Park', category: 'Recreation Park', distance: '3.2 km', icon: Trees, color: 'text-green-500' },
+    
+    // Hospitals
     { name: 'Unciano Medical Center', category: 'Medical Center', distance: '6.9 km', icon: Hospital, color: 'text-red-500' },
+    { name: 'Manila East Medical Center', category: 'Hospital', distance: '8.7 km', icon: Hospital, color: 'text-red-600' },
+    
+    // Schools and Educational Institutions
     { name: 'PAREF Rosehill School', category: 'Private School', distance: '5.4 km', icon: GraduationCap, color: 'text-indigo-600' },
-    { name: 'Assumption Antipolo', category: 'Educational Institution', distance: '11.2 km', icon: GraduationCap, color: 'text-purple-500' },
     { name: 'La Salle College Antipolo', category: 'College', distance: '10.8 km', icon: GraduationCap, color: 'text-green-700' },
-    { name: 'San Beda University', category: 'University', distance: '13.1 km', icon: GraduationCap, color: 'text-orange-500' }
+    { name: 'Assumption Antipolo', category: 'Educational Institution', distance: '11.2 km', icon: GraduationCap, color: 'text-purple-500' },
+    { name: 'San Beda University', category: 'University', distance: '13.1 km', icon: GraduationCap, color: 'text-orange-500' },
+    
+    // Marketplace and Shopping
+    { name: 'Marketplace', category: 'Shopping Center', distance: '4.1 km', icon: ShoppingBag, color: 'text-green-600' },
+    { name: 'All Home', category: 'Home Store', distance: '5.2 km', icon: Home, color: 'text-orange-600' },
+    { name: 'Shopwise', category: 'Supermarket', distance: '6.3 km', icon: ShoppingBag, color: 'text-blue-500' },
+    { name: 'SM Center Angono', category: 'Shopping Mall', distance: '7.8 km', icon: ShoppingBag, color: 'text-blue-600' },
+    
+    // Other
+    { name: 'Antipolo Church', category: 'Religious Site', distance: '12.5 km', icon: Building, color: 'text-purple-600' }
   ];
 
   const phases = [
@@ -425,7 +436,7 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
               viewport={{ once: true, margin: "-100px" }}
             >
               <motion.h2 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-[#4A573B] font-garamond mb-3 md:mb-4 font-garamond"
+                className="text-6xl sm:text-7xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold text-[#4A573B] font-garamond mb-3 md:mb-4 font-garamond"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -440,68 +451,113 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                the dramatic Cliffside, the serene Fairway, or the tranquil Lakeview—each phase offering unique vistas and premier selections.
+                Our master plans reveal the seamless design and strategic flow that unite Cliffside, Fairway, and Lakeview into one elevated community.
               </motion.p>
             </motion.div>
           </div>
 
-          {/* Mobile List View */}
-          <div className="block md:hidden px-4 pb-8">
-            <motion.div 
-              className="space-y-8"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              {phases.map((phase, index) => (
-                <motion.div 
-                  key={phase.id} 
-                  className="grid grid-cols-1 min-h-[400px] gap-6"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: index * 0.2 }}
-                >
-                  <motion.div className="relative h-full">
-                    <ImageWithFallback
-                      src={phase.image}
-                      alt={phase.alt}
-                      className="w-full h-full min-h-[300px] object-cover rounded-lg shadow-xl"
-                    />
-                    <div className="absolute inset-0 bg-black opacity-30 rounded-lg" />
-                  </motion.div>
-
-                  <motion.div className={`flex items-center justify-center py-8 px-6 rounded-lg ${phase.bgColor}`}>
-                    <div className="space-y-6 max-w-lg">
-                      {/* Phase Icon */}
+          {/* Mobile Carousel View */}
+          <div className="block md:hidden pb-8">
+            <div className="relative w-full">
+              {/* Carousel Container */}
+              <div className="relative w-full h-[560px] overflow-hidden">
+                <div className="relative w-full h-full">
+                  {phases.map((phase, index) => (
+                    <motion.div
+                      key={phase.id}
+                      className="absolute inset-0 w-full h-full px-4"
+                      initial={{ opacity: 0, x: index === 0 ? 0 : 100 }}
+                      animate={{
+                        opacity: index === currentSlide ? 1 : 0,
+                        x: index === currentSlide ? 0 : index < currentSlide ? -100 : 100
+                      }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }}
+                    >
                       <motion.div 
-                        className="flex justify-center mb-4"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="flex flex-col h-full"
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
                       >
-                        <phase.icon className={`w-10 h-10 md:w-12 md:h-12 ${phase.textColor}`} />
+                        {/* Image on top */}
+                        <motion.div className="relative h-[430px]">
+                          <ImageWithFallback
+                            src={phase.image}
+                            alt={phase.alt}
+                            className="w-full h-full object-cover rounded-t-lg shadow-xl"
+                          />
+                          <div className="absolute inset-0 bg-black opacity-30 rounded-t-lg" />
+                        </motion.div>
+
+                        {/* Description at bottom - even more reduced size */}
+                        <motion.div className={`h-[130px] flex items-center justify-center py-1 px-4 rounded-b-lg ${phase.bgColor}`}>
+                          <div className="space-y-1 max-w-lg text-center">
+                            {/* Phase Icon */}
+                            <motion.div 
+                              className="flex justify-center"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ duration: 0.6, delay: 0.4 }}
+                            >
+                              <phase.icon className={`w-5 h-5 ${phase.textColor}`} />
+                            </motion.div>
+                            
+                            <div className={`font-rotunda tracking-wider uppercase ${phase.textColor}`}
+                              style={{ 
+                                marginTop: '3px',
+                                fontSize: 'clamp(1.16rem, 1.7vw, 2.04rem)'
+                              }}
+                            >
+                            </div>
+                            <h3 className={`font-garamond text-base sm:text-lg font-bold mb-1 ${phase.textColor}`}>
+                              {phase.customTitle || phase.name}
+                            </h3>
+                            <p className={`font-rotunda text-xs leading-snug text-center ${phase.textColor === 'text-white' ? 'text-gray-200' : 'text-gray-700'}`}>
+                              {phase.description}
+                            </p>
+                          </div>
+                        </motion.div>
                       </motion.div>
-                      
-                      <div className={`font-rotunda tracking-wider mb-6 uppercase ${phase.textColor}`}
-                        style={{ 
-                          marginTop: '30px',
-                          fontSize: 'clamp(1.16rem, 1.7vw, 2.04rem)'
-                        }}
-                      >
-                        {phase.name}
-                      </div>
-                      <h3 className={`font-garamond text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 ${phase.textColor}`}>
-                        {phase.customTitle || phase.name}
-                      </h3>
-                      <p className={`font-rotunda text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-justify ${phase.textColor === 'text-white' ? 'text-gray-200' : 'text-gray-700'}`}>
-                        {phase.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              ))}
-            </motion.div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Mobile Navigation Buttons */}
+                <button
+                  onClick={() => {
+                    setIsAutoPlaying(false);
+                    setCurrentSlide((prev) => (prev - 1 + phases.length) % phases.length);
+                    setTimeout(() => setIsAutoPlaying(true), 10000);
+                  }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group touch-feedback"
+                >
+                  <ChevronLeft className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                </button>
+
+                <button
+                  onClick={() => {
+                    setIsAutoPlaying(false);
+                    setCurrentSlide((prev) => (prev + 1) % phases.length);
+                    setTimeout(() => setIsAutoPlaying(true), 10000);
+                  }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group touch-feedback"
+                >
+                  <ChevronRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                </button>
+
+
+
+                {/* Mobile Progress Bar */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-black/10">
+                  <motion.div
+                    className="h-full bg-[#4A573B]"
+                    initial={{ width: "0%" }}
+                    animate={{ width: `${((currentSlide + 1) / phases.length) * 100}%` }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Desktop Carousel View - HOME PAGE STYLE */}
@@ -549,19 +605,7 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
                             >
                               <phase.icon className={`w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20 ${phase.textColor}`} />
                             </motion.div>
-                            
-                            <motion.div 
-                              className={`font-rotunda tracking-wider mb-6 uppercase ${phase.textColor}`}
-                              style={{ 
-                                marginTop: '30px',
-                                fontSize: 'clamp(1.36rem, 2.04vw, 2.72rem)'
-                              }}
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.6, delay: 0.5 }}
-                            >
-                              {phase.name}
-                            </motion.div>
+
                             <motion.h3 
                               className={`font-garamond text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold mb-8 ${phase.textColor}`}
                               initial={{ opacity: 0, y: 20 }}
@@ -653,21 +697,82 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-800 mb-6 font-plantin">
-              From your chosen vantage point, envision the bigger picture
+            <h2 className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#4A573B] mb-6 font-garamond">
+              From your chosen vantage point, envision the bigger picture:
             </h2>
-            <p className="text-gray-700 text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto">
+            <p className="text-[#4A573B] text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto font-rotunda leading-relaxed text-justify">
               Explore our comprehensive development plans showcasing the thoughtful design and strategic layout of Narra Cliffs.
             </p>
           </motion.div>
         </div>
 
-        {/* Interactive Plans Tabs - Full Width */}
+        {/* Mobile List View - Simple List */}
+        <div className="block md:hidden w-full space-y-8">
+          {/* Master Plan */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="max-w-7xl mx-auto px-4 md:px-6 mb-4">
+              <h3 className="text-base font-bold text-[#4A573B] text-center" style={{ fontFamily: "'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif" }}>
+                Master Plan
+              </h3>
+            </div>
+            <div className="w-full bg-white py-4 shadow-2xl relative">
+              <ZoomableImage
+                src={conceptualMasterPlanImage}
+                alt="Narra Cliffs Master Plan"
+                className="w-full h-auto object-contain"
+                zoomLevel={3}
+                zoomSize={900}
+              />
+              <div className="absolute bottom-6 right-6 bg-[#4A573B]/90 text-white text-sm px-3 py-2 rounded-lg backdrop-blur-sm flex items-center space-x-2">
+                <div className="flex space-x-1">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
+                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                </div>
+                <span className="font-rotunda">Use two fingers to zoom</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Conceptual Plan */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <div className="max-w-7xl mx-auto px-4 md:px-6 mb-4">
+              <h3 className="text-base font-bold text-[#4A573B] text-center" style={{ fontFamily: "'Plantin MT Pro', 'Playfair Display', 'Times New Roman', serif" }}>
+                Conceptual Plan
+              </h3>
+            </div>
+            <div className="w-full bg-white py-4 shadow-2xl relative">
+              <ZoomableImage
+                src={sitePlanImage}
+                alt="Narra Cliffs Conceptual Plan"
+                className="w-full h-auto object-contain"
+                zoomLevel={3}
+                zoomSize={900}
+              />
+              <div className="absolute bottom-6 right-6 bg-[#4A573B]/90 text-white text-sm px-3 py-2 rounded-lg backdrop-blur-sm flex items-center space-x-2">
+                <div className="flex space-x-1">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
+                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                </div>
+                <span className="font-rotunda">Use two fingers to zoom</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Desktop Tabs View - Interactive Plans Tabs - Full Width */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full"
+          className="w-full hidden md:block"
         >
           <Tabs defaultValue="conceptual" className="w-full">
             {/* Tab Buttons - Centered */}
@@ -716,14 +821,6 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
                     zoomLevel={3}
                     zoomSize={900}
                   />
-                  {/* Mobile Touch Instructions */}
-                  <div className="absolute bottom-6 right-6 md:hidden bg-[#4A573B]/90 text-white text-sm px-3 py-2 rounded-lg backdrop-blur-sm flex items-center space-x-2">
-                    <div className="flex space-x-1">
-                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                    </div>
-                    <span className="font-rotunda">Use two fingers to zoom</span>
-                  </div>
                 </div>
               </motion.div>
             </TabsContent>
@@ -754,14 +851,6 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
                     zoomLevel={3}
                     zoomSize={900}
                   />
-                  {/* Mobile Touch Instructions */}
-                  <div className="absolute bottom-6 right-6 md:hidden bg-[#4A573B]/90 text-white text-sm px-3 py-2 rounded-lg backdrop-blur-sm flex items-center space-x-2">
-                    <div className="flex space-x-1">
-                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                    </div>
-                    <span className="font-rotunda">Use two fingers to zoom</span>
-                  </div>
                 </div>
               </motion.div>
             </TabsContent>
@@ -771,6 +860,35 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
 
       {/* Property Information Section */}
       <div className="py-8 md:py-12 lg:py-16" style={{backgroundColor: '#DA743F'}}>
+        {/* Header Section */}
+        <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-8 md:pb-12">
+          <motion.div 
+            className="text-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            <motion.h2 
+              className="text-6xl sm:text-7xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold text-white font-garamond mb-3 md:mb-4 font-garamond"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Define your investment:
+            </motion.h2>
+            <motion.p 
+              className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 max-w-4xl mx-auto font-rotunda leading-relaxed text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              Explore a range of property sizes and price options, thoughtfully curated to match your vision and elevate your lifestyle at Narra Cliffs.
+            </motion.p>
+          </motion.div>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-center"
@@ -856,26 +974,26 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
                   </p>
                 </motion.div>
 
-                <div className="space-y-3 md:space-y-4">
+                <div className="space-y-2 md:space-y-3">
                   {nearbyPlaces.map((place, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                      className="flex items-center justify-between p-3 md:p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:bg-white/90"
+                      className="flex items-center justify-between py-1 md:py-2"
                     >
                       <div className="flex items-center space-x-3 md:space-x-4">
-                        <div className={`p-2 rounded-full bg-gray-100 ${place.color}`}>
+                        <div className={`p-2 rounded-full ${place.color}`}>
                           <place.icon className="w-4 h-4 md:w-5 md:h-5" />
                         </div>
                         <div>
-                          <h4 className="font-medium text-gray-800 text-sm md:text-base">{place.name}</h4>
-                          <p className="text-gray-600 text-xs md:text-sm">{place.category}</p>
+                          <h4 className="font-medium text-gray-800 text-sm md:text-base font-rotunda">{place.name}</h4>
+                          <p className="text-gray-600 text-xs md:text-sm font-rotunda">{place.category}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="text-gray-700 font-medium text-xs md:text-sm">{place.distance}</span>
+                        <span className="text-gray-700 font-medium text-xs md:text-sm font-rotunda">{place.distance}</span>
                       </div>
                     </motion.div>
                   ))}
@@ -892,7 +1010,7 @@ const LotsPage: React.FC<LotsPageProps> = ({ onNavigateToHome, onNavigateToAmeni
             >
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.237!2d121.18629126429096!3d14.526725717060508!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f15.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDMxJzM2LjIiTiAxMjHCsDExJzEwLjYiRQ!5e1!3m2!1sen!2sph!4v1703123456789!5m2!1sen!2sph"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.9!2d121.186006!3d14.528368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f15.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDMxJzQyLjEiTiAxMjHCsDExJzA5LjYiRQ!5e1!3m2!1sen!2sph!4v1703123456789!5m2!1sen!2sph"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

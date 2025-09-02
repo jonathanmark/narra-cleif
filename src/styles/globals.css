@@ -2,6 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 @custom-variant dark (&:is(.dark *));
 
+/* iPhone 16 and Safari-specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  /* Safari-specific styles */
+  body {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
 /* Custom font family definition */
 @layer base {
   .font-plantin {
@@ -98,6 +108,14 @@
   html, body {
     @apply text-foreground;
     font-family: 'Rotunda Regular', 'Roboto', 'Arial', sans-serif;
+    /* iPhone viewport height support */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Custom CSS property for viewport height */
+  html {
+    height: calc(var(--vh, 1vh) * 100);
   }
 }
 
@@ -408,6 +426,47 @@
   .touch-pan-y {
     touch-action: pan-y;
   }
+  
+  /* iPhone 16 responsive utilities */
+  .iphone-16-optimized {
+    width: 100%;
+    max-width: 393px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .iphone-16-text {
+    font-size: clamp(0.875rem, 3.5vw, 1rem);
+    line-height: 1.5;
+  }
+  
+  .iphone-16-header {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    line-height: 1.2;
+  }
+  
+  .iphone-16-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* iPhone 16 maximum hero text */
+  .iphone-16-hero-max {
+    font-size: clamp(5.5rem, 22vw, 8rem) !important;
+    line-height: 0.9 !important;
+    letter-spacing: -0.03em !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+  
+  /* Mobile scroll button positioning */
+  .mobile-scroll-button {
+    bottom: clamp(5rem, 15vh, 8rem);
+  }
 
   /* Carousel performance optimizations */
   .carousel-optimized {
@@ -458,6 +517,72 @@
   }
 }
 
+/* iPhone 16 specific optimizations (393×852 viewport) */
+@media screen and (max-width: 393px) and (max-height: 852px) {
+  /* iPhone 16 specific styles */
+  .header-scalable {
+    min-height: clamp(4.5rem, 12vw, 6rem) !important;
+  }
+  
+  /* Enhanced touch targets for iPhone 16 */
+  button, .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Optimized font scaling for iPhone 16 */
+  .font-plantin {
+    font-size: clamp(1.5rem, 5vw, 2rem) !important;
+  }
+  
+  .font-rotunda {
+    font-size: clamp(0.875rem, 3.5vw, 1rem) !important;
+  }
+  
+  .font-garamond {
+    font-size: clamp(1.125rem, 4vw, 1.25rem) !important;
+  }
+  
+  /* Enhanced hero text scaling for iPhone 16 */
+  .hero-text-mobile {
+    font-size: clamp(3rem, 12vw, 5rem) !important;
+    line-height: 1.1 !important;
+  }
+  
+  /* Specific iPhone 16 hero text - much larger */
+  .font-garamond.hero-iphone-16 {
+    font-size: clamp(4.5rem, 18vw, 6rem) !important;
+    line-height: 1.05 !important;
+  }
+}
+
+/* iPhone 16 Pro/Plus optimizations (430×932 viewport) */
+@media screen and (max-width: 430px) and (max-height: 932px) {
+  .header-scalable {
+    min-height: clamp(5rem, 11vw, 7rem) !important;
+  }
+}
+
+/* Safari-specific mobile optimizations */
+@supports (-webkit-touch-callout: none) and (max-width: 430px) {
+  /* Prevent zooming on form inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+  
+  /* iOS safe area support */
+  .safe-area-padding {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
 /* Mobile-specific optimizations */
 @media (max-width: 768px) {
   .carousel-container {
@@ -468,6 +593,18 @@
   
   .carousel-item {
     scroll-snap-align: center;
+  }
+  
+  /* Enhanced mobile typography */
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Improved mobile scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 }
 
@@ -523,5 +660,131 @@
 @media (min-width: 1280px) {
   .single-card-carousel {
     max-width: 900px;
+  }
+}
+
+/* iPhone 16 exact dimensions - maximum hero text size */
+@media screen and (max-width: 393px) {
+  .font-garamond.hero-iphone-16 {
+    font-size: clamp(5rem, 20vw, 7rem) !important;
+    line-height: 0.95 !important;
+    letter-spacing: -0.02em !important;
+  }
+  
+  /* Scroll button positioning for iPhone 16 */
+  .mobile-scroll-button {
+    bottom: 5.5rem !important; /* 88px from bottom */
+  }
+}
+
+/* Enhanced mobile scroll button positioning */
+@media screen and (max-width: 480px) {
+  .mobile-scroll-button {
+    bottom: clamp(4.5rem, 12vh, 6rem) !important;
+  }
+}
+
+/* Comprehensive mobile responsiveness */
+@media screen and (max-width: 480px) {
+  /* General mobile container improvements */
+  .container, .max-w-7xl, .max-w-6xl, .max-w-5xl {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Improved mobile navigation */
+  .mobile-nav-item {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+  
+  /* Mobile form improvements */
+  .mobile-form {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .mobile-form input,
+  .mobile-form textarea,
+  .mobile-form select {
+    padding: 0.875rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+  
+  /* Mobile card layouts */
+  .mobile-card {
+    margin: 0.5rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+  }
+  
+  /* Mobile hero sections */
+  .mobile-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  
+  .mobile-hero-title {
+    font-size: clamp(3rem, 12vw, 5rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .mobile-hero-subtitle {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    line-height: 1.4;
+    margin-bottom: 2rem;
+  }
+  
+  /* Enhanced hero text utilities */
+  .hero-text-enhanced {
+    font-size: clamp(4rem, 15vw, 12rem);
+    line-height: 1.1;
+    text-align: center;
+    display: block;
+    width: 100%;
+  }
+}
+
+/* iPhone specific viewport handling */
+@media screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) {
+  /* iPhone 16 specific */
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .full-height-mobile {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* iPhone 16 specific hero text - even larger */
+  .font-garamond.hero-iphone-16 {
+    font-size: 5.5rem !important;
+    line-height: 1.0 !important;
+  }
+}
+
+/* High resolution mobile displays */
+@media screen and (max-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  /* Crisp images on retina displays */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Enhanced text rendering */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }

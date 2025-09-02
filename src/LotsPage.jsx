@@ -490,6 +490,7 @@ const LotsPage = ({ onNavigateToHome, onNavigateToAmenities }) => {
           </div>
         </section>
 
+        {/* Development Phases Section - HOME PAGE CAROUSEL STYLE */}
         <div className="py-12 md:py-16 lg:py-20 overflow-hidden w-full relative">
           {/* Content Overlay */}
           <div className="relative z-10" style={{ backgroundColor: "#CEC6AD" }}>
@@ -752,6 +753,9 @@ const LotsPage = ({ onNavigateToHome, onNavigateToAmenities }) => {
             </div>
           </div>
         </div>
+
+        {/* Continue with rest of content... */}
+        {/* I'll add more sections in subsequent parts due to length */}
       </div>
     </div>
   );

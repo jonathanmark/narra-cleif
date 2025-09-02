@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
-import { Award, Home, Shield, ChevronLeft, ChevronRight, MapPin, Building, TreePine, Activity, Users, Coffee, Bike, Star } from 'lucide-react';
+import { Award, Home, Shield, ChevronLeft, ChevronRight, MapPin, Building, TreePine, Activity, Users, Coffee, Bike, Star, Phone } from 'lucide-react';
 import opportunityImage from 'figma:asset/c0b95d6561670fe18db793b87c3afba0be4be5cd.png';
 import practicalityImage from 'figma:asset/1398b5807d1c3fc5b337230e3c78f9f7415f1436.png';
-import stabilityImage from 'figma:asset/41ec5f1cdb1be73154667c70700ca34deeb2b534.png';
+import stabilityImage from 'figma:asset/d15f5e0f71f04d7fc2c655d3efc36c8e55a8f718.png';
 import narraCliffsFacilityImage from 'figma:asset/7e2b84dd52b078042a9ccdb2a7f17cf7fa6c6900.png';
 
 
@@ -23,7 +23,7 @@ export function WhyChooseSection({ onNavigateToAmenities, onNavigateToLots }: Wh
     const wordsToItalicize = ['space', 'growth', 'secret'];
     
     // Split text into words while preserving spaces
-    const parts = fullText.split(/(\s+)/);
+    const parts = fullText.split(/(\\s+)/);
     
     return parts.map((part, index) => {
       const cleanWord = part.toLowerCase().replace(/[.,!?;:]/g, '');
@@ -96,6 +96,17 @@ export function WhyChooseSection({ onNavigateToAmenities, onNavigateToLots }: Wh
     }
   };
 
+  const handleContactUs = () => {
+    // Scroll to contact section on current page
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   return (
     <section id="why-choose" className="py-12 md:py-16 lg:py-20 overflow-hidden w-full relative">
 
@@ -162,9 +173,7 @@ export function WhyChooseSection({ onNavigateToAmenities, onNavigateToLots }: Wh
               }`}>
                 <div className="space-y-6 max-w-lg">
                   <div 
-                    className={`font-rotunda tracking-wider mb-6 uppercase ${
-                      reason.title === 'STABILITY' || reason.title === 'OPPORTUNITY' || reason.title === 'PRACTICALITY' ? 'text-white' : 'text-[#4A573B]'
-                    }`}
+                    className="font-rotunda tracking-wider mb-6 uppercase text-white"
                     style={{ 
                       marginTop: '30px',
                       fontSize: 'clamp(1.16rem, 1.7vw, 2.04rem)' // 15% smaller than mobile responsive sizes
@@ -172,14 +181,10 @@ export function WhyChooseSection({ onNavigateToAmenities, onNavigateToLots }: Wh
                   >
                     {reason.title}
                   </div>
-                  <h3 className={`font-garamond text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 ${
-                    reason.title === 'STABILITY' || reason.title === 'OPPORTUNITY' || reason.title === 'PRACTICALITY' ? 'text-white' : 'text-gray-900'
-                  }`}>
+                  <h3 className="font-garamond text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-white">
                     {renderHeaderWithItalics(reason.headline, reason.subline)}
                   </h3>
-                  <p className={`font-rotunda text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-justify ${
-                    reason.title === 'STABILITY' || reason.title === 'OPPORTUNITY' || reason.title === 'PRACTICALITY' ? 'text-gray-200' : 'text-gray-700'
-                  }`}>
+                  <p className="font-rotunda text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-justify text-white">
                     {reason.description}
                   </p>
                 </div>
@@ -307,186 +312,7 @@ export function WhyChooseSection({ onNavigateToAmenities, onNavigateToLots }: Wh
         </div>
       </div>
 
-      {/* New Editing Space */}
-      <div className="w-full mt-12 md:mt-16 lg:mt-20">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <motion.div
-            className="text-center py-8 md:py-12 lg:py-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            {/* Editable Content Area */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12 lg:p-16 xl:p-20 max-w-7xl mx-auto">
-              {/* Amenities Sneak Peek */}
-              <h3 className="font-garamond text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#4A573B] mb-6 md:mb-8 lg:mb-10 text-center">
-                World-Class Amenities
-              </h3>
-              <p className="font-rotunda text-lg md:text-xl lg:text-2xl xl:text-3xl text-gray-700 leading-relaxed mb-8 md:mb-10 lg:mb-12 text-center max-w-4xl mx-auto">
-                Experience premium facilities and recreational spaces designed to enhance your everyday living at Narra Cliffs.
-              </p>
-              
-              {/* Amenities Showcase Image */}
-              <motion.div 
-                className="mb-12 md:mb-14 lg:mb-16 xl:mb-20"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl group">
-                  <ImageWithFallback
-                    src={narraCliffsFacilityImage}
-                    alt="Narra Cliffs modern clubhouse architectural rendering featuring contemporary design, covered walkways, and premium amenities"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  
-                  {/* Image Overlay with Text */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center p-6 md:p-8 lg:p-10">
-                    <div className="text-center text-white">
-                      <h4 className="font-garamond text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-2 md:mb-3">
-                        Premium Lifestyle Awaits
-                      </h4>
-                      <p className="font-rotunda text-sm md:text-base lg:text-lg xl:text-xl opacity-90">
-                        Modern clubhouse • Infinity pool • Scenic views
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-              
-              {/* Featured Amenities Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 lg:gap-12 xl:gap-16 mb-12 md:mb-14 lg:mb-16">
-                {/* Clubhouse */}
-                <motion.div 
-                  className="text-center group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                >
-                  <div className="bg-[#4A573B] rounded-full w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 mx-auto mb-6 md:mb-8 flex items-center justify-center group-hover:bg-[#DA743F] transition-colors duration-300 shadow-lg group-hover:shadow-xl">
-                    <Building className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 text-white" />
-                  </div>
-                  <h4 className="font-garamond text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-[#4A573B] mb-3 md:mb-4">
-                    Modern Clubhouse
-                  </h4>
-                  <p className="font-rotunda text-base md:text-lg lg:text-xl xl:text-2xl text-gray-600 leading-relaxed">
-                    Contemporary clubhouse with stylish lounge, infinity lap pool, and manicured lawns
-                  </p>
-                </motion.div>
 
-                {/* Sunset Park */}
-                <motion.div 
-                  className="text-center group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <div className="bg-[#4A573B] rounded-full w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 mx-auto mb-6 md:mb-8 flex items-center justify-center group-hover:bg-[#DA743F] transition-colors duration-300 shadow-lg group-hover:shadow-xl">
-                    <TreePine className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 text-white" />
-                  </div>
-                  <h4 className="font-garamond text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-[#4A573B] mb-3 md:mb-4">
-                    Sunset Park
-                  </h4>
-                  <p className="font-rotunda text-base md:text-lg lg:text-xl xl:text-2xl text-gray-600 leading-relaxed">
-                    Elevated sanctuary with breathtaking views and modern pavilion architecture
-                  </p>
-                </motion.div>
-
-                {/* Eastridge Amenities */}
-                <motion.div 
-                  className="text-center group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <div className="bg-[#4A573B] rounded-full w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 mx-auto mb-6 md:mb-8 flex items-center justify-center group-hover:bg-[#DA743F] transition-colors duration-300 shadow-lg group-hover:shadow-xl">
-                    <Award className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 text-white" />
-                  </div>
-                  <h4 className="font-garamond text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-[#4A573B] mb-3 md:mb-4">
-                    Eastridge Golf Club
-                  </h4>
-                  <p className="font-rotunda text-base md:text-lg lg:text-xl xl:text-2xl text-gray-600 leading-relaxed">
-                    Championship golf course, driving range, dining, and recreational facilities
-                  </p>
-                </motion.div>
-              </div>
-
-              {/* Additional Features */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 lg:gap-10 mb-12 md:mb-14 lg:mb-16">
-                <motion.div 
-                  className="flex items-center space-x-4 p-4 md:p-5 lg:p-6 bg-white/60 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                  <Activity className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-[#4A573B] flex-shrink-0" />
-                  <span className="font-rotunda text-sm md:text-base lg:text-lg xl:text-xl text-gray-700 font-medium">Fitness Center</span>
-                </motion.div>
-
-                <motion.div 
-                  className="flex items-center space-x-4 p-4 md:p-5 lg:p-6 bg-white/60 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  <Users className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-[#4A573B] flex-shrink-0" />
-                  <span className="font-rotunda text-sm md:text-base lg:text-lg xl:text-xl text-gray-700 font-medium">Family Areas</span>
-                </motion.div>
-
-                <motion.div 
-                  className="flex items-center space-x-4 p-4 md:p-5 lg:p-6 bg-white/60 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                >
-                  <Coffee className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-[#4A573B] flex-shrink-0" />
-                  <span className="font-rotunda text-sm md:text-base lg:text-lg xl:text-xl text-gray-700 font-medium">Dining Options</span>
-                </motion.div>
-
-                <motion.div 
-                  className="flex items-center space-x-4 p-4 md:p-5 lg:p-6 bg-white/60 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.7 }}
-                >
-                  <Bike className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-[#4A573B] flex-shrink-0" />
-                  <span className="font-rotunda text-sm md:text-base lg:text-lg xl:text-xl text-gray-700 font-medium">Bike Trails</span>
-                </motion.div>
-              </div>
-              
-              {/* Call to Action */}
-              <div className="text-center">
-                <motion.button
-                  onClick={() => {
-                    if (onNavigateToAmenities) {
-                      onNavigateToAmenities();
-                    }
-                  }}
-                  className="border-2 border-[#4A573B]/40 text-[#4A573B] bg-transparent hover:bg-[#4A573B]/5 px-4 md:px-6 py-2 md:py-3 rounded-lg hover:border-[#4A573B]/60 text-sm md:text-base font-medium tracking-wide transition-all duration-300 hover:scale-[1.02] group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.8 }}
-                >
-                  <div className="flex items-center space-x-2">
-                    <Star className="w-4 h-4 md:w-5 md:h-5 group-hover:rotate-6 transition-transform duration-300 opacity-70" />
-                    <span>Explore All Amenities</span>
-                  </div>
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
 
       {/* Enhanced CTA Button */}
       <div className="w-full mt-8 md:mt-12 lg:mt-16">
@@ -494,15 +320,31 @@ export function WhyChooseSection({ onNavigateToAmenities, onNavigateToLots }: Wh
 
 
           <div className="text-center max-w-7xl mx-auto px-4 md:px-6 relative z-10">
-            <div className="relative inline-block">
+            <div className="relative block lg:inline-block w-full lg:w-auto">
               <button
-                className="bg-gradient-to-r from-[#DA743F] to-[#E8824F] text-white px-8 md:px-12 lg:px-16 py-4 md:py-5 lg:py-6 rounded-xl shadow-2xl text-lg md:text-xl lg:text-2xl font-bold tracking-wide transition-transform duration-200 hover:scale-105"
+                className="bg-gradient-to-r from-[#DA743F] to-[#E8824F] text-white px-8 md:px-12 lg:px-16 py-4 md:py-5 lg:py-6 rounded-xl shadow-2xl text-lg md:text-xl lg:text-2xl font-bold tracking-wide transition-transform duration-200 hover:scale-105 w-full lg:w-auto"
                 onClick={handleDiscoverLots}
               >
-                <div className="flex items-center space-x-3 md:space-x-4 lg:space-x-5">
+                <div className="flex items-center justify-center space-x-3 md:space-x-4 lg:space-x-5">
                   <MapPin className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 drop-shadow-lg" />
                   <span className="font-bold tracking-wide drop-shadow-lg">
                     Discover Available Lots
+                  </span>
+                  <ChevronRight className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 drop-shadow-lg" />
+                </div>
+              </button>
+            </div>
+            
+            {/* Contact Us Button - Mobile Only */}
+            <div className="relative block mt-4 lg:hidden w-full">
+              <button
+                className="bg-gradient-to-r from-[#DA743F] to-[#E8824F] text-white px-8 md:px-12 lg:px-16 py-4 md:py-5 lg:py-6 rounded-xl shadow-2xl text-lg md:text-xl lg:text-2xl font-bold tracking-wide transition-transform duration-200 hover:scale-105 w-full"
+                onClick={handleContactUs}
+              >
+                <div className="flex items-center justify-center space-x-3 md:space-x-4 lg:space-x-5">
+                  <Phone className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 drop-shadow-lg" />
+                  <span className="font-bold tracking-wide drop-shadow-lg">
+                    Contact Us
                   </span>
                   <ChevronRight className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 drop-shadow-lg" />
                 </div>
